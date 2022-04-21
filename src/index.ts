@@ -20,11 +20,11 @@ declare global {
 }
 
 // if (window.__REACT_DEVTOOLS_GLOBAL_HOOK__?.renderers.size === 0) {
-//   console.log('delete devtools', window.__REACT_DEVTOOLS_GLOBAL_HOOK__)
-//   delete window.__REACT_DEVTOOLS_GLOBAL_HOOK__
+//   console.log("delete devtools", window.__REACT_DEVTOOLS_GLOBAL_HOOK__);
+//   delete window.__REACT_DEVTOOLS_GLOBAL_HOOK__;
 // } else if (window.__REACT_DEVTOOLS_GLOBAL_HOOK__?.renderers.size > 0) {
-//   console.log('show warning devtools', window.__REACT_DEVTOOLS_GLOBAL_HOOK__)
-//   showDevtoolsWarning()
+//   console.log("show warning devtools", window.__REACT_DEVTOOLS_GLOBAL_HOOK__);
+//   showDevtoolsWarning();
 // }
 
 // const store = new Store()
@@ -50,25 +50,26 @@ const wall = {
   },
 };
 
-//@ts-ignore
-wall.listen((data) => {
-  console.log(data);
-});
-
 const rootElement = document.getElementById("root")!;
 const frontBridge = createFrontendBridge(rootElement, wall);
 
 const store = createStore(frontBridge);
+//@ts-ignore
+wall.listen((data) => {
+  if (data.event === "operations") {
+    store.onBridgeOperations(data.payload);
+    const devtoolsTree = store._idToElement;
+    //@ts-ignore
+    window.devtoolsTree = devtoolsTree;
+  }
+});
+
 window.__FRONTEND_DEVTOOLS__ = createDevTools(window, {
   bridge: frontBridge,
   store,
 });
-console.log("INITIALIZED FRONTEND");
 
 initializeBackend(window);
-console.log("INITIALIZED BACKEND");
-
 activateBackend(window, {
   bridge: createBackendBridge(window, wall),
 });
-console.log("ACTIVATED BACKEND");
