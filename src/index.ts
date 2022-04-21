@@ -41,8 +41,8 @@ if (window.__REACT_DEVTOOLS_GLOBAL_HOOK__?.renderers.size === 0) {
 const wall = {
   //@ts-ignore
   listen(listener) {
-    window.addEventListener("message", (event) => {
-      listener(event.data);
+    window.addEventListener("message", ({ data }) => {
+      listener(data);
     });
   },
   //@ts-ignore
