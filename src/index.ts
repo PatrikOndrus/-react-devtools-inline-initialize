@@ -65,9 +65,6 @@ window.__FRONTEND_DEVTOOLS__ = createDevTools(window, {
 });
 console.log("INITIALIZED FRONTEND");
 
-// console.log(frontBridge);
-// console.log(store);
-
 initializeBackend(window);
 console.log("INITIALIZED BACKEND");
 
