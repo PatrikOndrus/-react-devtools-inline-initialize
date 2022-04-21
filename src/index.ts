@@ -10,8 +10,9 @@ import {
   initialize as createDevTools,
   //@ts-ignore
 } from "react-devtools-inline/frontend";
+import { Store } from "./bridgeOperations";
 
-// import { showDevtoolsWarning } from "./warning";
+import { showDevtoolsWarning } from "./warning";
 declare global {
   interface Window {
     __REACT_DEVTOOLS_GLOBAL_HOOK__: any;
@@ -19,13 +20,13 @@ declare global {
   }
 }
 
-// if (window.__REACT_DEVTOOLS_GLOBAL_HOOK__?.renderers.size === 0) {
-//   console.log("delete devtools", window.__REACT_DEVTOOLS_GLOBAL_HOOK__);
-//   delete window.__REACT_DEVTOOLS_GLOBAL_HOOK__;
-// } else if (window.__REACT_DEVTOOLS_GLOBAL_HOOK__?.renderers.size > 0) {
-//   console.log("show warning devtools", window.__REACT_DEVTOOLS_GLOBAL_HOOK__);
-//   showDevtoolsWarning();
-// }
+if (window.__REACT_DEVTOOLS_GLOBAL_HOOK__?.renderers.size === 0) {
+  console.log("delete devtools", window.__REACT_DEVTOOLS_GLOBAL_HOOK__);
+  delete window.__REACT_DEVTOOLS_GLOBAL_HOOK__;
+} else if (window.__REACT_DEVTOOLS_GLOBAL_HOOK__?.renderers.size > 0) {
+  console.log("show warning devtools", window.__REACT_DEVTOOLS_GLOBAL_HOOK__);
+  showDevtoolsWarning();
+}
 
 // const store = new Store()
 // window.addEventListener('message', ({ data }) => {
@@ -53,7 +54,7 @@ const wall = {
 const rootElement = document.getElementById("root")!;
 const frontBridge = createFrontendBridge(rootElement, wall);
 
-const store = createStore(frontBridge);
+const store: Store = createStore(frontBridge);
 //@ts-ignore
 wall.listen((data) => {
   if (data.event === "operations") {
