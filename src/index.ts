@@ -56,7 +56,7 @@ const store: Store = createStore(frontBridge);
 //@ts-ignore
 wall.listen((data) => {
   if (data.event === "operations") {
-    store.onBridgeOperations(data.payload);
+    // store.onBridgeOperations(data.payload);
     const devtoolsTree = store._idToElement;
     //@ts-ignore
     window.devtoolsTree = devtoolsTree;
